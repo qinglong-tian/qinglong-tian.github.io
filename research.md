@@ -64,7 +64,7 @@ order: 2
     <div class="pub-meta">H Kim, X Zhang, J Zhao, **Q Tian**. International Conference on Learning Representations, 2024.</div>
   </li>
   <li>
-    <div class="pub-title">Rejoinder to “Specifying Prior Distribution in Reliability Applications”</div>
+    <div class="pub-title">Rejoinder to "Specifying Prior Distribution in Reliability Applications"</div>
     <div class="pub-meta">**Q Tian**, C Lewis‐Beck, JB Niemi, WQ Meeker. Applied Stochastic Models in Business and Industry, 2023.</div>
   </li>
   <li>
@@ -88,4 +88,3 @@ order: 2
     <div class="pub-meta">**Q Tian**, DJ Nordman, WQ Meeker. INFORMS Journal on Data Science 1 (1), 63-80, 2022.</div>
   </li>
 </ul>
-
