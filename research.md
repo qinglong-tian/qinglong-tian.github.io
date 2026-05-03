@@ -36,7 +36,3 @@ order: 2
   </li>
 </ul>
 
-### Talks
-
-- **Talk Title** — Conference/Workshop, 2026. [slides]
-- **Invited Talk** — Institution Name, 2025.
