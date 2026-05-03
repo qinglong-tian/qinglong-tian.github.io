@@ -1,0 +1,127 @@
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --text: #1a1a1a;
+  --bg: #ffffff;
+  --accent: #2c5aa0;
+  --muted: #666;
+  --border: #e0e0e0;
+  --code-bg: #f5f5f5;
+  --max-width: 720px;
+}
+
+html { font-size: 17px; }
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+/* ── Container ── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ── Header ── */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 0;
+  margin-bottom: 2.5rem;
+}
+
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* ── Navigation ── */
+.site-nav { display: flex; gap: 1.5rem; }
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Main ── */
+main { min-height: 60vh; padding-bottom: 3rem; }
+
+main h1 { font-size: 1.6rem; margin-bottom: 1rem; }
+main h2 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.5rem; color: var(--accent); }
+main h3 { font-size: 1.05rem; margin-top: 1.5rem; margin-bottom: 0.4rem; }
+
+main p, main li { margin-bottom: 0.75rem; }
+
+main a { color: var(--accent); text-decoration: none; }
+main a:hover { text-decoration: underline; }
+
+main ul, main ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+
+main hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+main strong { font-weight: 600; }
+
+/* ── Profile (home page) ── */
+.profile {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.profile-text { flex: 1; }
+
+.profile-text p.affiliation {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ── Publication list ── */
+.pub-list { list-style: none; padding-left: 0; }
+.pub-list li { margin-bottom: 1.25rem; }
+.pub-list .pub-title { font-weight: 600; }
+.pub-list .pub-meta { font-size: 0.9rem; color: var(--muted); }
+.pub-list .pub-links { font-size: 0.85rem; margin-top: 0.15rem; }
+.pub-list .pub-links a { margin-right: 0.75rem; }
+
+/* ── Footer ── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .site-header .container { flex-direction: column; }
+  .profile { flex-direction: column; }
+}
