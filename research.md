@@ -4,23 +4,7 @@ title: Research
 order: 2
 ---
 
-## Research
-
-My research interests include:
-
-- **Natural Language Processing** — text generation, summarization, question answering
-- **Machine Learning** — efficient training, model compression, few-shot learning
-- **AI Alignment** — RLHF, interpretability, safety
-
-### Current Projects
-
-**Project Alpha: Efficient Language Models**
-Exploring methods to reduce the computational cost of large language models while maintaining performance. This work includes knowledge distillation, pruning, and quantization techniques.
-
-**Project Beta: Interpretable AI**
-Developing tools and methods to understand what language models learn and how they make decisions. We use probing classifiers, attention visualization, and mechanistic interpretability.
-
-### Publications
+## Publications
 
 <ul class="pub-list">
   <li>

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Other
+title: Personal
 order: 4
 ---
 
