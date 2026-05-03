@@ -4,6 +4,8 @@ title: Research
 order: 2
 ---
 
+My current research focuses on **transfer learning**, particularly addressing challenges related to **distributional shift**, **out-of-distribution detection**, and **label noise**. I approach these problems through the lens of **mixture models** and **density ratios**, which are fundamental concepts in statistics.
+
 ## Publications
 
 <ul class="pub-list">

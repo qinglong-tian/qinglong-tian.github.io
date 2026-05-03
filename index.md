@@ -7,30 +7,37 @@ nav: false
 
 <div class="profile" markdown="0">
   <div class="profile-img">
-    <img src="https://placehold.co/200x200/ddd/999?text=Photo" alt="Your Name" width="200" height="200">
+    <img src="https://placehold.co/200x200/ddd/999?text=Photo" alt="Qinglong Tian" width="200" height="200">
   </div>
   <div class="profile-text">
-    <h1>Your Name</h1>
+    <h1>Qinglong Tian / 田庆隆</h1>
     <p class="affiliation">
-      PhD Candidate / Postdoc / Professor<br>
-      Department of Computer Science<br>
-      University of Example
+      Assistant Professor<br>
+      Department of Statistics and Actuarial Science<br>
+      University of Waterloo
     </p>
     <p>
-      <a href="mailto:your.email@example.com">Email</a>
+      <a href="mailto:qinglong.tian@uwaterloo.ca">Email</a>
       &middot;
-      <a href="#">CV</a>
-      &middot;
-      <a href="#">Google Scholar</a>
-      &middot;
-      <a href="#">GitHub</a>
+      <a href="https://github.com/qinglong-tian">GitHub</a>
+    </p>
+    <p class="affiliation" style="margin-top:0.5rem;">
+      Office: 2107@M3
     </p>
   </div>
 </div>
 
-## About
+## Research
 
-I am a researcher at the University of Example working on **large language models**, **natural language processing**, and **machine learning**. My research focuses on making language models more efficient, interpretable, and aligned with human values.
+My current research focuses on **transfer learning**, particularly addressing challenges related to **distributional shift**, **out-of-distribution detection**, and **label noise**. I approach these problems through the lens of **mixture models** and **density ratios**, which are fundamental concepts in statistics.
 
-Before joining University of Example, I received my PhD from Another University, where I worked on question answering and knowledge representation.
+## Education
 
+- **Ph.D. in Statistics**, Iowa State University — Advised by William Meeker and Dan Nordman
+- **BEcon. in Statistics**, Renmin University of China
+
+## For undergraduate students
+
+Currently, I am **not accepting USRA/MURA applications**.
+
+Please don't contact me for reference letters unless (a) you earned a grade &ge; 96 in my class or (b) I know you personally.
