@@ -87,4 +87,13 @@ order: 2
     <div class="pub-title">Constructing Prediction Intervals Using the Likelihood Ratio Statistic</div>
     <div class="pub-meta"><strong>Q Tian</strong>, DJ Nordman, WQ Meeker. INFORMS Journal on Data Science 1 (1), 63-80, 2022.</div>
   </li>
+  <li>
+    <div class="pub-title">Prediction of Future Failures for Heterogeneous Reliability Field Data</div>
+    <div class="pub-meta">C Lewis-Beck, <strong>Q Tian</strong>, WQ Meeker. Technometrics 64(1), 2021.</div>
+  </li>
+
+  <li>
+    <div class="pub-title">Using degradation models to assess pipeline life</div>
+    <div class="pub-meta"><strong>Q Tian</strong>, S Liu, WQ Meeker. Applied Stochastic Models in Business and Industry 35(6), 1411-1430, 2019.</div>
+  </li>
 </ul>
