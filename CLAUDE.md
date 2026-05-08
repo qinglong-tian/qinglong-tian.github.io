@@ -32,7 +32,7 @@ assets/
 1. **Nav** — Fixed glassmorphism nav with dark/light toggle and mobile hamburger menu
 2. **Hero** — Name, Chinese name, affiliation, contact links, photo
 3. **Research** — Summary with 3 focus area cards (gray background)
-4. **Publications** — Full chronological list (20 papers) with year labels
+4. **Publications** — Full chronological list with year labels
 5. **Teaching** — Policy cards for undergraduate research and reference letters
 6. **Service & Awards** — Reviewer roles, program committees, education
 7. **About/Personal** — Short bio, interests (gray background)
@@ -46,9 +46,9 @@ assets/
 - **Responsive**: Mobile-first, breakpoints at `md` (768px) and `lg` (1024px)
 
 ### Tailwind
-Tailwind v4 is loaded via CDN in `<head>`. Dark mode is configured via `darkMode: 'class'`. Custom colors come from CSS variables — Tailwind classes like `bg-[var(--bg-surface)]` reference them directly.
+Tailwind v4 is loaded via CDN in `<head>`. The Tailwind config (dark mode class strategy, font family extension) is set inline before the CDN script loads, along with a blocking script that applies the `dark` class to `<html>` before first paint to prevent a flash of unstyled content (FOUC). Custom colors come from CSS variables — Tailwind classes like `bg-[var(--bg-surface)]` reference them directly.
 
-### JavaScript (vanilla, ~3 KB)
+### JavaScript (vanilla)
 All interactive behavior in `assets/js/main.js`:
 - `toggleTheme()` — global function bound to the theme toggle button
 - IntersectionObserver — reveals `.reveal` elements on scroll
@@ -57,4 +57,4 @@ All interactive behavior in `assets/js/main.js`:
 - Active section tracking — highlights nav link for visible section
 
 ### Legacy Jekyll files
-The `.md` files at root (`index.md`, `research.md`, `teaching.md`, `other.md`) and `_layouts/`, `_includes/`, `_config.yml`, `Gemfile` are from the previous Jekyll-based site. They are no longer used for the live site and can be removed.
+The `.md` files at root (`index.md`, `research.md`, `teaching.md`, `other.md`) and `_layouts/`, `_includes/`, `_config.yml`, `Gemfile` are from the previous Jekyll-based site. They are no longer used — a `.nojekyll` file tells GitHub Pages to serve the raw HTML directly. These legacy files can be removed.
