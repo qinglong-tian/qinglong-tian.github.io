@@ -4,33 +4,57 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+No build step required — this is a pure static HTML site.
+
 ```bash
-# Install dependencies
-bundle install
+# Serve locally (any static server works)
+python3 -m http.server 8000
 
-# Start local dev server (auto-rebuilds)
-bundle exec jekyll serve
-
-# Build site for production
-bundle exec jekyll build
+# Or if you have Node.js
+npx serve .
 ```
 
 ## Architecture
 
-This is a **Jekyll 4.3** static site deployed to **GitHub Pages** (qinglong-tian.github.io). Markdown files in the root become HTML pages via kramdown.
+This is a **single-page static HTML site** deployed to **GitHub Pages** (qinglong-tian.github.io). No build step, no framework — just HTML, Tailwind CSS (CDN), and vanilla JS.
 
-### Page system
-- Each `.md` file at the root is a page. Pages use YAML frontmatter: `layout: default`, `title`, `order` (nav sort), and `nav: false` to hide from nav.
-- The `index.md` home page has `nav: false` — it's only reachable via the site title link, not the nav bar.
+### File structure
 
-### Navigation
-`_includes/navigation.html` auto-generates the nav by iterating `site.pages`, sorted by `order`, excluding pages where `nav` is explicitly `false` or title is missing. The current page gets the `.active` CSS class.
+```
+index.html              — Single page with all sections
+assets/
+  css/style.css         — Custom properties (theming), animations, component styles
+  js/main.js            — Dark mode, scroll animations, mobile nav, active link tracking
+  img/                  — Images and photos
+```
 
-### Layout
-`_layouts/default.html` wraps all pages with the HTML shell (header with title + nav, main content area, footer with copyright year).
+### Sections (in order)
+1. **Nav** — Fixed glassmorphism nav with dark/light toggle and mobile hamburger menu
+2. **Hero** — Name, Chinese name, affiliation, contact links, photo
+3. **Research** — Summary with 3 focus area cards (gray background)
+4. **Publications** — Full chronological list (20 papers) with year labels
+5. **Teaching** — Policy cards for undergraduate research and reference letters
+6. **Service & Awards** — Reviewer roles, program committees, education
+7. **About/Personal** — Short bio, interests (gray background)
+8. **Footer** — Copyright, email, GitHub
 
-### Styling
-`assets/css/style.css` uses CSS custom properties (`--text`, `--bg`, `--accent`, etc.) for theming. The profile section on the home page uses a `.profile` flex layout. Publications use `.pub-list` styled list items with `.pub-title`, `.pub-meta`, `.pub-links` child elements.
+### Design system
+- **Colors**: CSS custom properties (`--bg`, `--text`, `--accent`, etc.) with light/dark variants controlled by `.dark` class on `<html>`
+- **Typography**: System font stack (`-apple-system, BlinkMacSystemFont, ...`), tight tracking, large headlines
+- **Animations**: `.reveal` elements observed via IntersectionObserver — fade-in-up with staggered delays (`.reveal-delay-1` through `.reveal-delay-8`)
+- **Dark mode**: Toggle in nav, persisted to `localStorage`, respects `prefers-color-scheme`
+- **Responsive**: Mobile-first, breakpoints at `md` (768px) and `lg` (1024px)
 
-### Config
-`_config.yml` sets the site title, email, description, base URL, and excludes Gemfile/Gemfile.lock/README.md from the built output. The `url` is set for the GitHub Pages user site.
+### Tailwind
+Tailwind v4 is loaded via CDN in `<head>`. Dark mode is configured via `darkMode: 'class'`. Custom colors come from CSS variables — Tailwind classes like `bg-[var(--bg-surface)]` reference them directly.
+
+### JavaScript (vanilla, ~3 KB)
+All interactive behavior in `assets/js/main.js`:
+- `toggleTheme()` — global function bound to the theme toggle button
+- IntersectionObserver — reveals `.reveal` elements on scroll
+- Scroll listener — adds `.scrolled` class to nav for border
+- Mobile nav — hamburger toggle with body scroll lock
+- Active section tracking — highlights nav link for visible section
+
+### Legacy Jekyll files
+The `.md` files at root (`index.md`, `research.md`, `teaching.md`, `other.md`) and `_layouts/`, `_includes/`, `_config.yml`, `Gemfile` are from the previous Jekyll-based site. They are no longer used for the live site and can be removed.
