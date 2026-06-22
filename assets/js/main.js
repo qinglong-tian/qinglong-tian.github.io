@@ -1,108 +1,114 @@
-/* ── Dark Mode ── */
 (function () {
-  const STORAGE_KEY = 'theme';
-  const DARK_CLASS = 'dark';
-
-  function getTheme() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
+  const storageKey = 'theme';
+  const root = document.documentElement;
+  const toggle = document.querySelector('.theme-toggle');
 
   function setTheme(theme) {
-    document.documentElement.classList.toggle(DARK_CLASS, theme === 'dark');
-    localStorage.setItem(STORAGE_KEY, theme);
+    const isDark = theme === 'dark';
+    root.classList.toggle('dark', isDark);
+    localStorage.setItem(storageKey, theme);
+    if (toggle) toggle.setAttribute('aria-pressed', String(isDark));
   }
 
-  // Apply immediately to prevent flash
-  setTheme(getTheme());
-
-  // Expose toggle globally
-  window.toggleTheme = function () {
-    const next = document.documentElement.classList.contains(DARK_CLASS) ? 'light' : 'dark';
-    setTheme(next);
-  };
+  if (toggle) {
+    toggle.setAttribute('aria-pressed', String(root.classList.contains('dark')));
+    toggle.addEventListener('click', () => {
+      setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+    });
+  }
 })();
 
-/* ── Scroll-triggered reveal animations ── */
 (function () {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.1,
-      rootMargin: '0px 0px -40px 0px',
-    }
-  );
-
-  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-})();
-
-/* ── Nav scroll state ── */
-(function () {
-  const nav = document.querySelector('.site-nav');
-  if (!nav) return;
+  const header = document.querySelector('.site-header');
+  if (!header) return;
 
   let ticking = false;
+  function updateHeader() {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+    ticking = false;
+  }
+
+  updateHeader();
   window.addEventListener('scroll', () => {
     if (!ticking) {
-      requestAnimationFrame(() => {
-        nav.classList.toggle('scrolled', window.scrollY > 10);
-        ticking = false;
-      });
+      window.requestAnimationFrame(updateHeader);
       ticking = true;
     }
+  }, { passive: true });
+})();
+
+(function () {
+  const button = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.mobile-nav');
+  if (!button || !menu) return;
+
+  function setOpen(isOpen) {
+    button.classList.toggle('open', isOpen);
+    menu.classList.toggle('open', isOpen);
+    button.setAttribute('aria-expanded', String(isOpen));
+    button.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  }
+
+  button.addEventListener('click', () => {
+    setOpen(!menu.classList.contains('open'));
+  });
+
+  menu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
   });
 })();
 
-/* ── Mobile nav toggle ── */
 (function () {
-  const hamburger = document.querySelector('.hamburger');
-  const mobileNav = document.querySelector('.mobile-nav');
-  if (!hamburger || !mobileNav) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const elements = document.querySelectorAll('.reveal');
+  if (!elements.length) return;
 
-  hamburger.addEventListener('click', () => {
-    const isOpen = mobileNav.classList.contains('open');
-    hamburger.classList.toggle('open', !isOpen);
-    mobileNav.classList.toggle('open', !isOpen);
-    document.body.style.overflow = isOpen ? '' : 'hidden';
-  });
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    elements.forEach((element) => element.classList.add('revealed'));
+    return;
+  }
 
-  // Close mobile nav on link click
-  mobileNav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileNav.classList.remove('open');
-      document.body.style.overflow = '';
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
     });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -56px 0px',
   });
+
+  elements.forEach((element) => observer.observe(element));
 })();
 
-/* ── Active nav link tracking ── */
 (function () {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+  const links = document.querySelectorAll('.nav-link[href^="#"]');
+  const sections = Array.from(links)
+    .map((link) => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
 
-  if (!sections.length || !navLinks.length) return;
+  if (!links.length || !sections.length || !('IntersectionObserver' in window)) return;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navLinks.forEach((link) => {
-            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-          });
-        }
-      });
-    },
-    { threshold: 0.3, rootMargin: '-80px 0px -40px 0px' }
-  );
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (!visible) return;
+
+    links.forEach((link) => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`);
+    });
+  }, {
+    threshold: [0.18, 0.35, 0.55],
+    rootMargin: '-96px 0px -48% 0px',
+  });
 
   sections.forEach((section) => observer.observe(section));
 })();

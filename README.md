@@ -5,7 +5,7 @@ Single-page static site deployed on GitHub Pages at [qinglong-tian.github.io](ht
 ## Tech Stack
 
 - **HTML** — single page with all sections
-- **Tailwind CSS v4** — loaded via CDN, no build step
+- **CSS** — local stylesheet, no build step or CDN dependency
 - **Vanilla JavaScript** — dark mode, scroll animations, mobile nav
 
 ## Local Development
@@ -29,9 +29,8 @@ Push to the `main` branch. GitHub Pages serves the root `index.html` automatical
 ```
 index.html              — Main page
 assets/
-  css/style.css         — Custom styles
-  js/main.js            — Interactions
-  img/                  — Images
+  css/style.css         — Visual system and responsive layout
+  js/main.js            — Theme, navigation, and reveal interactions
 ```
 
 ## Design

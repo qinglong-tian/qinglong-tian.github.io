@@ -1,379 +1,373 @@
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qinglong Tian</title>
-  <meta name="description" content="Assistant Professor, Department of Statistics and Actuarial Science, University of Waterloo">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Qinglong Tian | Assistant Professor of Statistics</title>
+  <meta name="description" content="Qinglong Tian is an Assistant Professor in the Department of Statistics and Actuarial Science at the University of Waterloo. Research interests include transfer learning, mixture models, density ratios, distributional shift, out-of-distribution detection, and label noise.">
+  <meta name="theme-color" content="#f7f8fb">
+  <meta property="og:title" content="Qinglong Tian | Assistant Professor of Statistics">
+  <meta property="og:description" content="Assistant Professor, Department of Statistics and Actuarial Science, University of Waterloo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://qinglong-tian.github.io/">
+  <meta name="twitter:card" content="summary">
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
-          },
-        },
-      },
-    };
-    // Prevent FOUC — apply dark class before paint
     (function () {
-      const t = localStorage.getItem('theme');
-      const d = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      document.documentElement.classList.toggle('dark', d);
+      var stored = localStorage.getItem('theme');
+      if (stored === 'dark') document.documentElement.classList.add('dark');
     })();
   </script>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-[var(--bg)] text-[var(--text)] antialiased">
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- ═══════════ UNDER CONSTRUCTION BANNER ═══════════ -->
-  <div class="bg-[var(--accent)] text-white text-center text-sm py-2 px-4 pt-16">
-    This website is under construction — check back soon for updates.
-  </div>
+  <header class="site-header" id="top">
+    <div class="nav-shell">
+      <a href="#hero" class="brand" aria-label="Qinglong Tian home">
+        <span class="brand-mark">QT</span>
+        <span>Qinglong Tian</span>
+      </a>
 
-  <!-- ═══════════ NAV ═══════════ -->
-  <header class="site-nav">
-    <div class="mx-auto max-w-5xl px-6 md:px-8 flex items-center justify-between h-14">
-      <a href="#hero" class="text-base font-semibold tracking-tight text-[var(--text)] no-underline">Qinglong Tian</a>
-
-      <!-- Desktop nav -->
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="#research" class="nav-link no-underline">Research</a>
-        <a href="#publications" class="nav-link no-underline">Publications</a>
-        <a href="#teaching" class="nav-link no-underline">Teaching</a>
-        <a href="#service" class="nav-link no-underline">Service</a>
-        <a href="#about" class="nav-link no-underline">Personal</a>
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-        </button>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#research" class="nav-link">Research</a>
+        <a href="#publications" class="nav-link">Publications</a>
+        <a href="#teaching" class="nav-link">Teaching</a>
+        <a href="#service" class="nav-link">Service</a>
+        <a href="#background" class="nav-link">Background</a>
+        <a href="#about" class="nav-link">Personal</a>
       </nav>
 
-      <!-- Mobile: theme toggle + hamburger -->
-      <div class="flex items-center gap-3 md:hidden">
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      <div class="nav-actions">
+        <button class="icon-button theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="moon-icon" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M21 14.4A8.7 8.7 0 0 1 9.6 3a7 7 0 1 0 11.4 11.4Z"></path>
           </svg>
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          <svg class="sun-icon" aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4.5"></circle>
+            <path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"></path>
           </svg>
         </button>
-        <button class="hamburger" aria-label="Toggle menu">
-          <span></span><span></span><span></span>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </div>
+
+    <nav class="mobile-nav" id="mobile-menu" aria-label="Mobile navigation">
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#service">Service</a>
+      <a href="#background">Background</a>
+      <a href="#about">Personal</a>
+    </nav>
   </header>
 
-  <!-- Mobile nav overlay -->
-  <div class="mobile-nav md:hidden">
-    <a href="#research">Research</a>
-    <a href="#publications">Publications</a>
-    <a href="#teaching">Teaching</a>
-    <a href="#service">Service</a>
-    <a href="#about">Personal</a>
-  </div>
+  <main id="main">
+    <section class="hero section" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">University of Waterloo</p>
+          <h1>Qinglong Tian <span>田庆隆</span></h1>
+          <p class="hero-title">Assistant Professor, Department of Statistics and Actuarial Science</p>
+          <p class="hero-tagline">
+            I study transfer learning under distributional shift through mixture models,
+            density ratios, and statistically principled inference.
+          </p>
 
-  <!-- ═══════════ HERO ═══════════ -->
-  <section id="hero" class="pt-32 pb-16 md:pt-44 md:pb-24">
-    <div class="mx-auto max-w-5xl px-6 md:px-8">
-      <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
-        <!-- Photo -->
-        <div class="hero-photo reveal">
-          <img src="https://placehold.co/400x400/e8e8ed/a1a1a6?text=Photo" alt="Qinglong Tian" width="200" height="200" loading="eager">
-        </div>
-
-        <!-- Text -->
-        <div class="flex-1">
-          <div class="reveal">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-3">
-              Qinglong Tian
-            </h1>
-            <p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium tracking-tight mb-2">
-              田庆隆
-            </p>
-          </div>
-
-          <div class="reveal reveal-delay-1 space-y-1 mt-6">
-            <p class="text-base md:text-lg text-[var(--text-secondary)] leading-relaxed max-w-xl">
-              Assistant Professor<br>
-              Department of Statistics and Actuarial Science<br>
-              University of Waterloo
-            </p>
-          </div>
-
-          <div class="reveal reveal-delay-2 flex flex-wrap gap-4 mt-6">
-            <a href="mailto:qinglong.tian@uwaterloo.ca" class="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] no-underline hover:underline transition-all">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <div class="contact-row" aria-label="Contact links">
+            <a class="button primary" href="mailto:qinglong.tian@uwaterloo.ca">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="m3.5 7 7.2 5.1a2.2 2.2 0 0 0 2.6 0L20.5 7"></path>
+              </svg>
               Email
             </a>
-            <a href="https://github.com/qinglong-tian" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-[var(--text-secondary)] no-underline hover:text-[var(--text)] transition-colors">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <a class="button secondary" href="https://github.com/qinglong-tian" target="_blank" rel="noopener">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.2-3.4-1.2-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 0 1.6 1.1 1.6 1.1.9 1.5 2.4 1.1 2.9.8.1-.7.4-1.1.7-1.3-2.2-.3-4.6-1.1-4.6-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .9-.3 2.8 1a9.6 9.6 0 0 1 5.1 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.8-2.3 4.6-4.6 4.9.4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"></path>
+              </svg>
               GitHub
             </a>
-            <span class="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="office-chip">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 21V7l8-4 8 4v14"></path>
+                <path d="M9 21v-7h6v7M7 10h.1M12 10h.1M17 10h.1"></path>
+              </svg>
               Office: 2107@M3
             </span>
           </div>
         </div>
+
+        <aside class="profile-card reveal reveal-delay-1" aria-label="Profile summary">
+          <div class="profile-orb" role="img" aria-label="Qinglong Tian profile mark">
+            <span>QT</span>
+            <small>田</small>
+          </div>
+          <div>
+            <p class="profile-name">Qinglong Tian</p>
+            <p class="profile-meta">Assistant Professor</p>
+            <p class="profile-meta">Statistics and Actuarial Science</p>
+          </div>
+        </aside>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════ RESEARCH ═══════════ -->
-  <section id="research" class="py-20 md:py-28 bg-[var(--bg-surface)]">
-    <div class="mx-auto max-w-5xl px-6 md:px-8">
-      <div class="reveal mb-4">
-        <p class="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">Research Focus</p>
-        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.15] max-w-2xl">
-          Transfer learning through the lens of mixture models and density ratios
-        </h2>
-      </div>
-
-      <div class="reveal reveal-delay-1 mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div class="research-card">
-          <h3 class="text-base font-semibold mb-2 text-[var(--text)]">Distributional Shift</h3>
-          <p class="text-sm text-[var(--text-secondary)] leading-relaxed">Addressing covariate shift, label shift, and concept drift in transfer learning settings.</p>
-        </div>
-        <div class="research-card">
-          <h3 class="text-base font-semibold mb-2 text-[var(--text)]">Out-of-Distribution Detection</h3>
-          <p class="text-sm text-[var(--text-secondary)] leading-relaxed">Identifying samples that deviate from training distributions using semiparametric models.</p>
-        </div>
-        <div class="research-card">
-          <h3 class="text-base font-semibold mb-2 text-[var(--text)]">Label Noise</h3>
-          <p class="text-sm text-[var(--text-secondary)] leading-relaxed">Building robust classifiers under noisy, weak, and positive-unlabeled data.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ PUBLICATIONS ═══════════ -->
-  <section id="publications" class="py-20 md:py-28">
-    <div class="mx-auto max-w-5xl px-6 md:px-8">
-      <div class="reveal mb-12">
-        <p class="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">Publications</p>
-        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Selected work</h2>
-      </div>
-
-      <div class="space-y-0">
-        <!-- 2026 -->
-        <div class="pub-item reveal">
-          <span class="pub-year">2026</span>
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">A goodness-of-fit test for the logistic propensity score model under nonignorable missing data</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">M Cheng, Y Xu, <strong>Q Tian</strong>, P Li. arXiv:2604.21110</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-1">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Neyman-Pearson multiclass classification under label noise via empirical likelihood</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">Q Zhang, <strong>Q Tian</strong>, P Li. arXiv:2603.21623</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-2">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Semiparametric Joint Inference for Sensitivity and Specificity at the Youden-Optimal Cut-Off</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">S Liu, <strong>Q Tian</strong>, C Wang, P Li. arXiv:2602.23045</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-3">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Likelihood-Based Non-Parametric Receiver Operating Characteristic Curve Analysis in the Presence of Imperfect Reference Standard</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">Y Sun, P Sang, <strong>Q Tian</strong>, P Li. <em>Statistics in Medicine</em> 44 (28-30), e70327, 2025</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-4">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Positive and unlabeled data: Model, estimation, inference, and classification</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">S Liu, CK Yeh, X Zhang, <strong>Q Tian</strong>, P Li. <em>Journal of the American Statistical Association</em> 120 (552), 2547-2558, 2025</div>
-        </div>
-
-        <!-- 2025 -->
-        <div class="pub-item reveal reveal-delay-5">
-          <span class="pub-year">2025</span>
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Transfer Learning under Group-Label Shift: A Semiparametric Exponential Tilting Approach</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">M Cheng, S Maity, <strong>Q Tian</strong>, P Li. arXiv:2509.22268</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-6">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Unsupervised Domain Adaptation for Binary Classification with an Unobservable Source Subpopulation</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">C Ying, J Jin, H Zhang, <strong>Q Tian</strong>, Y Ma, Y Li, J Zhao. arXiv:2509.20587</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-7">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Semiparametric Learning from Open-Set Label Shift Data</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">S Liu, Y Liu, <strong>Q Tian</strong>, P Li, J Qin. arXiv:2509.14522</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-8">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Efficient and model-agnostic parameter estimation under privacy-preserving post-randomization data</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, J Zhao. <em>Canadian Journal of Statistics</em> 53 (3), e70003, 2025</div>
-        </div>
-        <div class="pub-item reveal">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Model positive and unlabeled data with a generalized additive density ratio model</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">P Sang, Y Sun, <strong>Q Tian</strong>, D Zeng, P Li. arXiv:2508.12446</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-1">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Tabpfn: One model to rule them all?</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">Q Zhang, YS Tan, <strong>Q Tian</strong>, P Li. arXiv:2505.20003</div>
-        </div>
-
-        <!-- 2024 -->
-        <div class="pub-item reveal reveal-delay-2">
-          <span class="pub-year">2024</span>
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Joint statistical inference for the area under the ROC curve and Youden index under a Density Ratio Model</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">S Liu, <strong>Q Tian</strong>, Y Liu, P Li. <em>Mathematics</em> 12 (13), 2118</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-3">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Identification and efficient estimation in regression analysis with response missing not at random</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, D Zeng, J Zhao. <em>Statistica Sinica</em> 37 (2), 2024</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-4">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">ReTaSA: A Nonparametric Functional Estimation Approach for Addressing Continuous Target Shift</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">H Kim, X Zhang, J Zhao, <strong>Q Tian</strong>. <em>International Conference on Learning Representations</em> (ICLR), 2024</div>
-        </div>
-
-        <!-- 2023 -->
-        <div class="pub-item reveal reveal-delay-5">
-          <span class="pub-year">2023</span>
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Rejoinder to "Specifying Prior Distribution in Reliability Applications"</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, C Lewis-Beck, JB Niemi, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em></div>
-        </div>
-        <div class="pub-item reveal reveal-delay-6">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">ELSA: Efficient Label Shift Adaptation through the Lens of Semiparametric Models</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, X Zhang, J Zhao. <em>International Conference on Machine Learning</em> (ICML), 2023</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-7">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Specifying prior distributions in reliability applications</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, C Lewis-Beck, JB Niemi, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em></div>
-        </div>
-
-        <!-- 2022 -->
-        <div class="pub-item reveal reveal-delay-8">
-          <span class="pub-year">2022</span>
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Methods to compute prediction intervals: A review and new results</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, DJ Nordman, WQ Meeker. <em>Statistical Science</em> 37 (4), 580-597</div>
-        </div>
-        <div class="pub-item reveal">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Predicting the number of future events</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, F Meng, DJ Nordman, WQ Meeker. <em>Journal of the American Statistical Association</em> 117 (539), 1296-1310</div>
-        </div>
-        <div class="pub-item reveal reveal-delay-1">
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Constructing Prediction Intervals Using the Likelihood Ratio Statistic</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, DJ Nordman, WQ Meeker. <em>INFORMS Journal on Data Science</em> 1 (1), 63-80</div>
-        </div>
-
-        <!-- 2021 -->
-        <div class="pub-item reveal reveal-delay-2">
-          <span class="pub-year">2021</span>
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Prediction of Future Failures for Heterogeneous Reliability Field Data</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1">C Lewis-Beck, <strong>Q Tian</strong>, WQ Meeker. <em>Technometrics</em> 64(1)</div>
-        </div>
-
-        <!-- 2019 -->
-        <div class="pub-item reveal reveal-delay-3">
-          <span class="pub-year">2019</span>
-          <div class="font-semibold text-[var(--text)] text-sm md:text-base">Using degradation models to assess pipeline life</div>
-          <div class="text-xs md:text-sm text-[var(--text-secondary)] mt-1"><strong>Q Tian</strong>, S Liu, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em> 35(6), 1411-1430</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════ TEACHING ═══════════ -->
-  <section id="teaching" class="py-20 md:py-28 bg-[var(--bg-surface)]">
-    <div class="mx-auto max-w-5xl px-6 md:px-8">
-      <div class="reveal mb-12">
-        <p class="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">Teaching</p>
-        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">For students</h2>
-      </div>
-
-      <div class="reveal reveal-delay-1 space-y-5 max-w-2xl">
-        <div class="bg-[var(--bg-elevated)] rounded-2xl p-6 border border-[var(--border-subtle)]">
-          <h3 class="text-base font-semibold mb-2 text-[var(--text)]">Undergraduate Research</h3>
-          <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
-            Currently <strong>not accepting</strong> USRA/MURA applications.
+    <section class="section soft-section" id="research">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Research Focus</p>
+          <h2>Statistical learning for changing distributions.</h2>
+          <p>
+            My current research focuses on transfer learning, particularly addressing
+            challenges related to distributional shift, out-of-distribution detection,
+            and label noise. I approach these problems through the lens of mixture
+            models and density ratios.
           </p>
         </div>
-        <div class="bg-[var(--bg-elevated)] rounded-2xl p-6 border border-[var(--border-subtle)]">
-          <h3 class="text-base font-semibold mb-2 text-[var(--text)]">Reference Letters</h3>
-          <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
-            Please don't contact me for reference letters unless (a) you earned a grade &ge; 96 in my class, or (b) I know you personally.
-          </p>
+
+        <div class="research-grid">
+          <article class="research-card reveal">
+            <span class="card-number">01</span>
+            <h3>Transfer Learning</h3>
+            <p>Learning from related source data while accounting for mismatch between source and target populations.</p>
+          </article>
+          <article class="research-card reveal reveal-delay-1">
+            <span class="card-number">02</span>
+            <h3>Mixture Models</h3>
+            <p>Modeling heterogeneous populations and latent substructure with interpretable statistical tools.</p>
+          </article>
+          <article class="research-card reveal reveal-delay-2">
+            <span class="card-number">03</span>
+            <h3>Density Ratios</h3>
+            <p>Using density ratio ideas to represent shifts, estimate population differences, and build robust procedures.</p>
+          </article>
+          <article class="research-card reveal">
+            <span class="card-number">04</span>
+            <h3>Distributional Shift</h3>
+            <p>Studying covariate, label, group-label, open-set, and continuous target shift settings.</p>
+          </article>
+          <article class="research-card reveal reveal-delay-1">
+            <span class="card-number">05</span>
+            <h3>Out-of-Distribution Detection</h3>
+            <p>Developing methods for identifying observations that deviate from the data-generating setting.</p>
+          </article>
+          <article class="research-card reveal reveal-delay-2">
+            <span class="card-number">06</span>
+            <h3>Label Noise</h3>
+            <p>Building inference and classification methods under noisy labels, weak supervision, and positive-unlabeled data.</p>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════ SERVICE & AWARDS ═══════════ -->
-  <section id="service" class="py-20 md:py-28">
-    <div class="mx-auto max-w-5xl px-6 md:px-8">
-      <div class="grid md:grid-cols-2 gap-12 md:gap-16">
-        <!-- Service -->
-        <div class="reveal">
-          <p class="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">Service</p>
-          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Reviewing & community</h2>
-          <ul class="space-y-4 text-sm text-[var(--text-secondary)]">
-            <li class="flex gap-3">
-              <span class="text-[var(--accent)] mt-0.5 shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </span>
-              <span><strong class="text-[var(--text)]">Reviewer</strong> — ACL, EMNLP, NAACL, NeurIPS, ICML, ICLR (2023–present)</span>
-            </li>
-            <li class="flex gap-3">
-              <span class="text-[var(--accent)] mt-0.5 shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </span>
-              <span><strong class="text-[var(--text)]">Program Committee</strong> — Workshop on Efficient NLP (2025, 2026)</span>
-            </li>
-            <li class="flex gap-3">
-              <span class="text-[var(--accent)] mt-0.5 shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </span>
-              <span><strong class="text-[var(--text)]">Organizer</strong> — University ML Reading Group (2024–present)</span>
-            </li>
-          </ul>
+    <section class="section" id="publications">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Publications</p>
+          <h2>Selected work by year.</h2>
+          <p>Preprints and journal/conference publications, grouped for quick scanning.</p>
         </div>
 
-        <!-- Awards & Education -->
-        <div class="reveal reveal-delay-2">
-          <p class="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">Background</p>
-          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Education</h2>
-          <ul class="space-y-4 text-sm text-[var(--text-secondary)]">
-            <li class="flex gap-3">
-              <span class="text-[var(--accent)] mt-0.5 shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg>
-              </span>
-              <span><strong class="text-[var(--text)]">Ph.D. in Statistics</strong> — Iowa State University<br><span class="text-xs">Advised by William Meeker and Dan Nordman</span></span>
-            </li>
-            <li class="flex gap-3">
-              <span class="text-[var(--accent)] mt-0.5 shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg>
-              </span>
-              <span><strong class="text-[var(--text)]">BEcon. in Statistics</strong> — Renmin University of China</span>
-            </li>
+        <div class="publication-stack" aria-label="Publications grouped by year">
+          <section class="publication-year reveal" aria-labelledby="pub-2026">
+            <h3 id="pub-2026">2026</h3>
+            <article class="publication">
+              <h4>A goodness-of-fit test for the logistic propensity score model under nonignorable missing data</h4>
+              <p>M Cheng, Y Xu, <strong>Q Tian</strong>, P Li. <a href="https://arxiv.org/abs/2604.21110" target="_blank" rel="noopener">arXiv:2604.21110</a></p>
+            </article>
+            <article class="publication">
+              <h4>Neyman-Pearson multiclass classification under label noise via empirical likelihood</h4>
+              <p>Q Zhang, <strong>Q Tian</strong>, P Li. <a href="https://arxiv.org/abs/2603.21623" target="_blank" rel="noopener">arXiv:2603.21623</a></p>
+            </article>
+            <article class="publication">
+              <h4>Semiparametric Joint Inference for Sensitivity and Specificity at the Youden-Optimal Cut-Off</h4>
+              <p>S Liu, <strong>Q Tian</strong>, C Wang, P Li. <a href="https://arxiv.org/abs/2602.23045" target="_blank" rel="noopener">arXiv:2602.23045</a></p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2025">
+            <h3 id="pub-2025">2025</h3>
+            <article class="publication">
+              <h4>Likelihood-Based Non-Parametric Receiver Operating Characteristic Curve Analysis in the Presence of Imperfect Reference Standard</h4>
+              <p>Y Sun, P Sang, <strong>Q Tian</strong>, P Li. <em>Statistics in Medicine</em> 44 (28-30), e70327, 2025.</p>
+            </article>
+            <article class="publication">
+              <h4>Positive and unlabeled data: Model, estimation, inference, and classification</h4>
+              <p>S Liu, CK Yeh, X Zhang, <strong>Q Tian</strong>, P Li. <em>Journal of the American Statistical Association</em> 120 (552), 2547-2558, 2025.</p>
+            </article>
+            <article class="publication">
+              <h4>Transfer Learning under Group-Label Shift: A Semiparametric Exponential Tilting Approach</h4>
+              <p>M Cheng, S Maity, <strong>Q Tian</strong>, P Li. <a href="https://arxiv.org/abs/2509.22268" target="_blank" rel="noopener">arXiv:2509.22268</a></p>
+            </article>
+            <article class="publication">
+              <h4>Unsupervised Domain Adaptation for Binary Classification with an Unobservable Source Subpopulation</h4>
+              <p>C Ying, J Jin, H Zhang, <strong>Q Tian</strong>, Y Ma, Y Li, J Zhao. <a href="https://arxiv.org/abs/2509.20587" target="_blank" rel="noopener">arXiv:2509.20587</a></p>
+            </article>
+            <article class="publication">
+              <h4>Semiparametric Learning from Open-Set Label Shift Data</h4>
+              <p>S Liu, Y Liu, <strong>Q Tian</strong>, P Li, J Qin. <a href="https://arxiv.org/abs/2509.14522" target="_blank" rel="noopener">arXiv:2509.14522</a></p>
+            </article>
+            <article class="publication">
+              <h4>Efficient and model-agnostic parameter estimation under privacy-preserving post-randomization data</h4>
+              <p><strong>Q Tian</strong>, J Zhao. <em>Canadian Journal of Statistics</em> 53 (3), e70003, 2025.</p>
+            </article>
+            <article class="publication">
+              <h4>Model positive and unlabeled data with a generalized additive density ratio model</h4>
+              <p>P Sang, Y Sun, <strong>Q Tian</strong>, D Zeng, P Li. <a href="https://arxiv.org/abs/2508.12446" target="_blank" rel="noopener">arXiv:2508.12446</a></p>
+            </article>
+            <article class="publication">
+              <h4>Tabpfn: One model to rule them all?</h4>
+              <p>Q Zhang, YS Tan, <strong>Q Tian</strong>, P Li. <a href="https://arxiv.org/abs/2505.20003" target="_blank" rel="noopener">arXiv:2505.20003</a></p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2024">
+            <h3 id="pub-2024">2024</h3>
+            <article class="publication">
+              <h4>Joint statistical inference for the area under the ROC curve and Youden index under a Density Ratio Model</h4>
+              <p>S Liu, <strong>Q Tian</strong>, Y Liu, P Li. <em>Mathematics</em> 12 (13), 2118, 2024.</p>
+            </article>
+            <article class="publication">
+              <h4>Identification and efficient estimation in regression analysis with response missing not at random</h4>
+              <p><strong>Q Tian</strong>, D Zeng, J Zhao. <em>Statistica Sinica</em> 37 (2), 2024.</p>
+            </article>
+            <article class="publication">
+              <h4>ReTaSA: A Nonparametric Functional Estimation Approach for Addressing Continuous Target Shift</h4>
+              <p>H Kim, X Zhang, J Zhao, <strong>Q Tian</strong>. <em>International Conference on Learning Representations</em> (ICLR), 2024.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2023">
+            <h3 id="pub-2023">2023</h3>
+            <article class="publication">
+              <h4>Rejoinder to "Specifying Prior Distribution in Reliability Applications"</h4>
+              <p><strong>Q Tian</strong>, C Lewis-Beck, JB Niemi, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em>, 2023.</p>
+            </article>
+            <article class="publication">
+              <h4>ELSA: Efficient Label Shift Adaptation through the Lens of Semiparametric Models</h4>
+              <p><strong>Q Tian</strong>, X Zhang, J Zhao. <em>International Conference on Machine Learning</em> (ICML), 2023.</p>
+            </article>
+            <article class="publication">
+              <h4>Specifying prior distributions in reliability applications</h4>
+              <p><strong>Q Tian</strong>, C Lewis-Beck, JB Niemi, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em>, 2023.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2022">
+            <h3 id="pub-2022">2022</h3>
+            <article class="publication">
+              <h4>Methods to compute prediction intervals: A review and new results</h4>
+              <p><strong>Q Tian</strong>, DJ Nordman, WQ Meeker. <em>Statistical Science</em> 37 (4), 580-597, 2022.</p>
+            </article>
+            <article class="publication">
+              <h4>Predicting the number of future events</h4>
+              <p><strong>Q Tian</strong>, F Meng, DJ Nordman, WQ Meeker. <em>Journal of the American Statistical Association</em> 117 (539), 1296-1310, 2022.</p>
+            </article>
+            <article class="publication">
+              <h4>Constructing Prediction Intervals Using the Likelihood Ratio Statistic</h4>
+              <p><strong>Q Tian</strong>, DJ Nordman, WQ Meeker. <em>INFORMS Journal on Data Science</em> 1 (1), 63-80, 2022.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2021">
+            <h3 id="pub-2021">2021</h3>
+            <article class="publication">
+              <h4>Prediction of Future Failures for Heterogeneous Reliability Field Data</h4>
+              <p>C Lewis-Beck, <strong>Q Tian</strong>, WQ Meeker. <em>Technometrics</em> 64(1), 2021.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2019">
+            <h3 id="pub-2019">2019</h3>
+            <article class="publication">
+              <h4>Using degradation models to assess pipeline life</h4>
+              <p><strong>Q Tian</strong>, S Liu, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em> 35(6), 1411-1430, 2019.</p>
+            </article>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-section" id="teaching">
+      <div class="container two-column">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Teaching</p>
+          <h2>Information for students.</h2>
+        </div>
+        <div class="info-panel reveal reveal-delay-1">
+          <article class="info-card">
+            <h3>Undergraduate Research</h3>
+            <p>Currently, I am <strong>not accepting USRA/MURA applications</strong>.</p>
+          </article>
+          <article class="info-card">
+            <h3>Reference Letters</h3>
+            <p>Please don't contact me for reference letters unless (a) you earned a grade &ge; 96 in my class, or (b) I know you personally.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="service">
+      <div class="container split-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Service</p>
+          <h2>Reviewing and community.</h2>
+        </div>
+        <div class="list-panel reveal reveal-delay-1">
+          <ul class="check-list">
+            <li><strong>Reviewer</strong> — ACL, EMNLP, NAACL, NeurIPS, ICML, ICLR (2023-present)</li>
+            <li><strong>Program Committee</strong> — Workshop on Efficient NLP (2025, 2026)</li>
+            <li><strong>Organizer</strong> — University ML Reading Group (2024-present)</li>
           </ul>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════ ABOUT / PERSONAL ═══════════ -->
-  <section id="about" class="py-20 md:py-28 bg-[var(--bg-surface)]">
-    <div class="mx-auto max-w-5xl px-6 md:px-8">
-      <div class="reveal max-w-2xl">
-        <p class="text-xs font-semibold uppercase tracking-widest text-[var(--accent)] mb-4">Personal</p>
-        <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Beyond the classroom</h2>
-        <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
-          Outside of research, I enjoy hiking, cooking, and photography. A few things I've been into lately: books on the history of science, trail running, and making unnecessarily elaborate espresso drinks.
-        </p>
+    <section class="section soft-section" id="background">
+      <div class="container split-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Background</p>
+          <h2>Education.</h2>
+        </div>
+        <div class="timeline reveal reveal-delay-1">
+          <article class="timeline-item">
+            <span>Ph.D. in Statistics</span>
+            <p>Iowa State University. Advised by William Meeker and Dan Nordman.</p>
+          </article>
+          <article class="timeline-item">
+            <span>BEcon. in Statistics</span>
+            <p>Renmin University of China.</p>
+          </article>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
-  <footer class="py-10 border-t border-[var(--border-subtle)]">
-    <div class="mx-auto max-w-5xl px-6 md:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-      <p class="text-xs text-[var(--text-secondary)]">&copy; 2026 Qinglong Tian</p>
-      <div class="flex gap-6">
-        <a href="mailto:qinglong.tian@uwaterloo.ca" class="footer-link text-xs no-underline">Email</a>
-        <a href="https://github.com/qinglong-tian" target="_blank" rel="noopener" class="footer-link text-xs no-underline">GitHub</a>
+    <section class="section" id="about">
+      <div class="container">
+        <div class="personal-panel reveal">
+          <p class="eyebrow">Personal</p>
+          <h2>Beyond the classroom.</h2>
+          <p>
+            Outside of research, I enjoy hiking, cooking, and photography. A few
+            things I've been into lately: books on the history of science, trail
+            running, and making unnecessarily elaborate espresso drinks.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Qinglong Tian</p>
+      <div>
+        <a href="mailto:qinglong.tian@uwaterloo.ca">Email</a>
+        <a href="https://github.com/qinglong-tian" target="_blank" rel="noopener">GitHub</a>
+        <a href="#top">Back to top</a>
       </div>
     </div>
   </footer>
