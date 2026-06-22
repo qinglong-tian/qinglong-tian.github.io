@@ -88,27 +88,62 @@
 })();
 
 (function () {
-  const links = document.querySelectorAll('.nav-link[href^="#"]');
-  const sections = Array.from(links)
-    .map((link) => document.querySelector(link.getAttribute('href')))
-    .filter(Boolean);
+  const links = Array.from(document.querySelectorAll('.nav-link[href^="#"]'));
+  const sections = links
+    .map((link) => ({
+      link,
+      section: document.querySelector(link.getAttribute('href')),
+    }))
+    .filter((item) => item.section);
 
-  if (!links.length || !sections.length || !('IntersectionObserver' in window)) return;
+  if (!links.length || !sections.length) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter((entry) => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-    if (!visible) return;
-
+  function setActive(activeId) {
     links.forEach((link) => {
-      link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`);
+      link.classList.toggle('active', link.getAttribute('href') === `#${activeId}`);
     });
-  }, {
-    threshold: [0.18, 0.35, 0.55],
-    rootMargin: '-96px 0px -48% 0px',
+  }
+
+  function getOffset() {
+    const header = document.querySelector('.site-header');
+    return (header ? header.offsetHeight : 72) + 72;
+  }
+
+  function updateActiveLink() {
+    const position = window.scrollY + getOffset();
+    let activeId = '';
+
+    sections.forEach(({ section }) => {
+      if (section.offsetTop <= position) {
+        activeId = section.id;
+      }
+    });
+
+    const nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+    if (nearBottom) {
+      activeId = sections[sections.length - 1].section.id;
+    }
+
+    setActive(activeId);
+  }
+
+  let ticking = false;
+  function requestUpdate() {
+    if (ticking) return;
+    window.requestAnimationFrame(() => {
+      updateActiveLink();
+      ticking = false;
+    });
+    ticking = true;
+  }
+
+  links.forEach((link) => {
+    link.addEventListener('click', () => {
+      setActive(link.getAttribute('href').slice(1));
+    });
   });
 
-  sections.forEach((section) => observer.observe(section));
+  updateActiveLink();
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
 })();
