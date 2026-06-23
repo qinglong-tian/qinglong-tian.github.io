@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Column Space Visualizer — STAT 332</title>
+<style>
+  :root {
+    --bg: #eef1f5; --panel-bg: #ffffff; --text: #17191f;
+    --accent: #1565c0; --accent-strong: #0d47a1;
+    --border: #c9ced8; --input-bg: #f7f9fc;
+    --muted: #5b6472; --shadow: 0 12px 28px rgba(24, 32, 48, 0.10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text);
+    display: flex; height: 100vh; overflow: hidden;
+  }
+  #sidebar {
+    width: 440px; min-width: 440px; background: var(--panel-bg);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    padding: 24px; gap: 14px; overflow-y: auto; z-index: 10;
+    box-shadow: var(--shadow);
+  }
+  #sidebar h1 {
+    font-size: 1.75rem; line-height: 1.12; color: var(--accent-strong);
+    text-align: center; letter-spacing: 0;
+  }
+  #sidebar h2 { font-size: 0.95rem; color: var(--muted); text-align: center; font-weight: 500; margin-top: -6px; }
+  #sidebar .author { font-size: 0.78rem; color: #7b8390; text-align: center; margin-top: -8px; }
+  .section-label {
+    font-size: 0.84rem; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.04em; margin-top: 4px;
+  }
+  textarea, input[type="text"] {
+    width: 100%; background: var(--input-bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px 16px; font-family: 'SF Mono', 'Fira Code', 'Menlo', monospace;
+    font-size: 1.3rem; line-height: 1.45; resize: vertical;
+    box-shadow: inset 0 1px 2px rgba(24, 32, 48, 0.05);
+  }
+  textarea:focus, input[type="text"]:focus {
+    outline: 3px solid rgba(21, 101, 192, 0.18);
+    border-color: var(--accent);
+    background: #fff;
+  }
+  textarea { min-height: 128px; }
+  #y-input { min-height: 58px; }
+
+  #anim-controls {
+    display: grid; grid-template-columns: 1fr auto 1fr 1fr;
+    gap: 8px; align-items: center;
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px;
+  }
+  .anim-btn {
+    background: #e8edf5; color: var(--text);
+    border: 1px solid #c7ceda; border-radius: 6px;
+    padding: 10px 10px; font-size: 0.93rem; font-weight: 700; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .anim-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .anim-btn:disabled { opacity: 0.35; cursor: default; }
+  .anim-btn:disabled:hover { background: #e8e8ec; color: var(--text); }
+  .anim-btn.active { background: var(--accent); color: #fff; }
+  #stage-indicator {
+    font-size: 0.98rem; color: var(--accent-strong); text-align: center;
+    font-weight: 800; min-width: 112px;
+  }
+
+  .preset-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .preset-btn {
+    background: #eef2f7; color: var(--text);
+    border: 1px solid #c8ced8; border-radius: 999px;
+    padding: 8px 12px; font-size: 0.9rem; font-weight: 650; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .preset-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  #results {
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px;
+    font-family: 'SF Mono', 'Fira Code', 'Menlo', monospace;
+    font-size: 1.03rem; line-height: 1.75;
+    min-height: 164px;
+    height: auto;
+    flex: 0 0 auto;
+    overflow: visible;
+    overflow-wrap: anywhere;
+  }
+  .rl { color: var(--muted); } .rv { color: var(--accent); font-weight: 600; }
+  .rg { color: #2e7d32; } .ry { color: #e65100; } .rr { color: #c62828; }
+  #canvas-container { flex: 1; position: relative; background: #f8f8fb; }
+  #legend {
+    position: absolute; bottom: 20px; left: 20px;
+    background: rgba(255,255,255,0.94); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 16px; font-size: 0.96rem; line-height: 1.8;
+    pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .legend-item { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+  .widehat {
+    position: relative;
+    display: inline-block;
+    padding-top: 0.12em;
+  }
+  .widehat::before {
+    content: "^";
+    position: absolute;
+    left: 50%;
+    top: -0.58em;
+    transform: translateX(-50%) scaleX(1.9);
+    font-weight: 700;
+  }
+  .hint {
+    position: absolute; bottom: 20px; right: 20px;
+    color: #6f7783; font-size: 0.94rem; pointer-events: none;
+    background: rgba(255,255,255,0.82); border: 1px solid rgba(201,206,216,0.85);
+    border-radius: 999px; padding: 8px 12px;
+  }
+  .error-msg { color: #c62828; }
+  @media (max-width: 950px) {
+    body { flex-direction: column; overflow: auto; }
+    #sidebar { width: 100%; min-width: 0; max-height: 52vh; }
+    #canvas-container { min-height: 48vh; }
+  }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h1>Column Space Visualizer</h1>
+  <h2>STAT 332 &middot; Orthogonal Projection Demo</h2>
+  <div class="author">Qinglong Tian, 2026</div>
+
+  <div class="section-label">Matrix X (3 &times; p) — rows on separate lines, commas between entries</div>
+  <textarea id="x-input" rows="3">1, 0
+0, 1
+0, 0</textarea>
+
+  <div class="section-label">Vector y (3 &times; 1) — comma-separated</div>
+  <input type="text" id="y-input" value="2, 1.5, 3">
+
+  <div class="section-label">Presets</div>
+  <div class="preset-row">
+    <button class="preset-btn" data-preset="plane">XY-Plane (rank 2)</button>
+    <button class="preset-btn" data-preset="tilted">Tilted Plane (rank 2)</button>
+    <button class="preset-btn" data-preset="line">Line (rank 1)</button>
+    <button class="preset-btn" data-preset="full">Full R³ (rank 3)</button>
+    <button class="preset-btn" data-preset="colinear">Colinear Cols (rank 1)</button>
+  </div>
+
+  <div class="section-label">Animation</div>
+  <div id="anim-controls">
+    <button class="anim-btn" id="btn-prev">◀ Prev</button>
+    <span id="stage-indicator">Ready</span>
+    <button class="anim-btn" id="btn-next">Next ▶</button>
+    <button class="anim-btn" id="btn-auto">▶ Auto</button>
+  </div>
+
+  <div class="section-label">Results</div>
+  <div id="results"><span class="rl">Click Next to begin...</span></div>
+</div>
+
+<div id="canvas-container">
+  <div id="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#c62828"></span> y (red dashed line + ball)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#2e7d32"></span> <span class="widehat">E(y)</span> (green dashed line + ball)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#e65100"></span> e = y − <span class="widehat">E(y)</span> (orange)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#1565c0;opacity:0.55"></span> Col(X)</div>
+  </div>
+  <div class="hint">Drag to rotate &middot; Scroll to zoom &middot; Right-drag to pan</div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ============== LINEAR ALGEBRA ==============
+function matRows(M) { return M.length; }
+function matCols(M) { return M[0].length; }
+function matTranspose(M) {
+  const rows = matRows(M), cols = matCols(M);
+  const T = [];
+  for (let j = 0; j < cols; j++) { T[j] = []; for (let i = 0; i < rows; i++) T[j][i] = M[i][j]; }
+  return T;
+}
+function matMul(A, B) {
+  const m = matRows(A), n = matCols(A), p = matCols(B);
+  const C = [];
+  for (let i = 0; i < m; i++) {
+    C[i] = [];
+    for (let j = 0; j < p; j++) { let s = 0; for (let k = 0; k < n; k++) s += A[i][k] * B[k][j]; C[i][j] = s; }
+  }
+  return C;
+}
+function matVecMul(A, v) {
+  const m = matRows(A), n = matCols(A);
+  const out = new Array(m).fill(0);
+  for (let i = 0; i < m; i++) for (let j = 0; j < n; j++) out[i] += A[i][j] * v[j];
+  return out;
+}
+function vecDot(u, v) { let s = 0; for (let i = 0; i < u.length; i++) s += u[i] * v[i]; return s; }
+function vecNorm(v) { return Math.sqrt(vecDot(v, v)); }
+function vecScale(v, s) { return v.map(x => x * s); }
+function vecSub(u, v) { return u.map((x, i) => x - v[i]); }
+function vecAdd(u, v) { return u.map((x, i) => x + v[i]); }
+function matInverse2x2(M) {
+  const [[a, b], [c, d]] = M;
+  const det = a * d - b * c;
+  if (Math.abs(det) < 1e-10) return null;
+  return [[d / det, -b / det], [-c / det, a / det]];
+}
+function matInverse1x1(M) { if (Math.abs(M[0][0]) < 1e-10) return null; return [[1 / M[0][0]]]; }
+
+function gramSchmidt(X) {
+  const rows = matRows(X), cols = matCols(X);
+  const v = [];
+  for (let j = 0; j < cols; j++) { v[j] = []; for (let i = 0; i < rows; i++) v[j][i] = X[i][j]; }
+  const q = [], tol = 1e-9;
+  for (let j = 0; j < cols; j++) {
+    let u = [...v[j]];
+    for (let k = 0; k < q.length; k++) u = vecSub(u, vecScale(q[k], vecDot(v[j], q[k])));
+    const nu = vecNorm(u);
+    if (nu > tol) q.push(vecScale(u, 1 / nu));
+  }
+  return { Q: q, rank: q.length };
+}
+
+function computeProjection(Xmat, yvec) {
+  const gs = gramSchmidt(Xmat);
+  const rank = gs.rank, Qbasis = gs.Q;
+  if (rank === 0) return { yhat:[0,0,0], residual:[...yvec], rank:0, colSpaceBasis:[], P:[[0,0,0],[0,0,0],[0,0,0]] };
+  if (rank === 3) return { yhat:[...yvec], residual:[0,0,0], rank:3, colSpaceBasis:Qbasis, P:[[1,0,0],[0,1,0],[0,0,1]] };
+  let yhat, P;
+  const Xt = matTranspose(Xmat), XtX = matMul(Xt, Xmat);
+  let XtXinv = null;
+  if (matRows(XtX) === 1) XtXinv = matInverse1x1(XtX);
+  else if (matRows(XtX) === 2) XtXinv = matInverse2x2(XtX);
+  if (XtXinv) { P = matMul(matMul(Xmat, XtXinv), Xt); yhat = matVecMul(P, yvec); }
+  else {
+    yhat = [0,0,0]; for (const q of Qbasis) yhat = vecAdd(yhat, vecScale(q, vecDot(q, yvec)));
+    P = [[0,0,0],[0,0,0],[0,0,0]];
+    for (const q of Qbasis) for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) P[i][j] += q[i] * q[j];
+  }
+  return { yhat, residual: vecSub(yvec, yhat), rank, colSpaceBasis: Qbasis, P };
+}
+
+// ============== PARSE ==============
+function parseMatrix(text) { return text.trim().split(/\n/).filter(r=>r.trim()).map(r=>r.split(',').map(s=>parseFloat(s.trim()))); }
+function parseVector(text) { return text.split(',').map(s=>parseFloat(s.trim())); }
+function formatVec(v,d) { d=d||3; return v.map(x=>x.toFixed(d)).join(', '); }
+function formatMatrix(M,d) { d=d||3; return M.map(r=>r.map(x=>x.toFixed(d)).join('  ')).join('<br>'); }
+
+// ============== THREE.JS SETUP (projector-friendly) ==============
+const SCENE_BG = 0xf8f8fb;
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(SCENE_BG);
+scene.fog = new THREE.Fog(SCENE_BG, 15, 45);
+
+const camera = new THREE.PerspectiveCamera(50, container.clientWidth/container.clientHeight, 0.1, 100);
+camera.position.set(6, 4.5, 8); camera.lookAt(0,0,0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+container.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.035;
+controls.rotateSpeed = 1.55;
+controls.zoomSpeed = 1.15;
+controls.panSpeed = 1.15;
+controls.screenSpacePanning = true;
+controls.target.set(0,0,0); controls.update();
+
+// Brighter ambient for light background
+scene.add(new THREE.AmbientLight(0xffffff, 2.2));
+const dl1 = new THREE.DirectionalLight(0xffffff, 1.0);
+dl1.position.set(5,10,5); scene.add(dl1);
+const dl2 = new THREE.DirectionalLight(0xaaaacc, 0.6);
+dl2.position.set(-5,-2,-3); scene.add(dl2);
+
+// Grid — darker for visibility on light bg
+const gridHelper = new THREE.GridHelper(10, 20, 0xcccccc, 0xe0e0e0);
+scene.add(gridHelper);
+
+// Axes — bold projector colors
+function makeAxis(dir, color, len) {
+  return new THREE.ArrowHelper(new THREE.Vector3(dir[0],dir[1],dir[2]).normalize(), new THREE.Vector3(0,0,0), len, color, 0.28, 0.16);
+}
+scene.add(makeAxis([1,0,0], 0xb71c1c, 5.5));
+scene.add(makeAxis([0,0,1], 0x1b5e20, 5.5));
+scene.add(makeAxis([0,1,0], 0x0d47a1, 5.5));
+function makeNegAxis(dir, color, len) {
+  return new THREE.ArrowHelper(new THREE.Vector3(dir[0],dir[1],dir[2]).normalize(), new THREE.Vector3(0,0,0), len, color, 0.14, 0.09);
+}
+scene.add(makeNegAxis([-1,0,0], 0x884444, 5.0));
+scene.add(makeNegAxis([0,0,-1], 0x448844, 5.0));
+scene.add(makeNegAxis([0,-1,0], 0x444488, 5.0));
+
+// Dynamic groups
+const colSpaceGroup = new THREE.Group(), yGroup = new THREE.Group();
+const yhatGroup = new THREE.Group(), residualGroup = new THREE.Group(), labelGroup = new THREE.Group();
+scene.add(colSpaceGroup); scene.add(yGroup); scene.add(yhatGroup);
+scene.add(residualGroup); scene.add(labelGroup);
+
+// ============== HELPERS ==============
+function toSceneVec(v) {
+  return new THREE.Vector3(v[0], v[2], v[1]);
+}
+
+function makeSphere(pos, color, radius) {
+  const geo = new THREE.SphereGeometry(radius, 48, 48);
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.18, metalness: 0.05 });
+  const m = new THREE.Mesh(geo, mat); m.position.copy(pos); return m;
+}
+function makeDashedBoldLine(from, to, color, shaftR) {
+  const group = new THREE.Group();
+  const dir = new THREE.Vector3().subVectors(to, from);
+  const len = dir.length();
+  if (len < 0.001) return group;
+  const unit = dir.clone().normalize();
+  const dashLen = 0.35, gapLen = 0.22, segLen = dashLen + gapLen;
+  const nSegs = Math.floor((len - dashLen) / segLen) + 1;
+  // Higher emissive for projector visibility
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.25, emissive: color, emissiveIntensity: 0.45, metalness: 0.1 });
+  for (let i = 0; i < nSegs; i++) {
+    const start = i * segLen, dEnd = Math.min(start + dashLen, len), segLength = dEnd - start;
+    if (segLength < 0.01) continue;
+    const segMid = from.clone().addScaledVector(unit, (start + dEnd) / 2);
+    const cGeo = new THREE.CylinderGeometry(shaftR, shaftR, segLength, 12);
+    const cyl = new THREE.Mesh(cGeo, mat);
+    cyl.position.copy(segMid);
+    cyl.setRotationFromQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), unit));
+    group.add(cyl);
+  }
+  return group;
+}
+function makeLabel(text, colorHex) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 960; canvas.height = 150;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(255,255,255,0.88)';
+  ctx.beginPath();
+  ctx.roundRect(16, 20, 928, 110, 16);
+  ctx.fill();
+  ctx.fillStyle = colorHex;
+  ctx.font = 'bold 56px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(text, 480, 75);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+  const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false, depthWrite: false });
+  const sprite = new THREE.Sprite(mat);
+  sprite.scale.set(4.15, 0.65, 1);
+  return sprite;
+}
+
+function makeProjectionLabel(v, colorHex) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1100; canvas.height = 150;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(255,255,255,0.88)';
+  ctx.beginPath();
+  ctx.roundRect(16, 20, 1068, 110, 16);
+  ctx.fill();
+
+  ctx.fillStyle = colorHex;
+  ctx.font = 'bold 56px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  const lhs = 'E(y)';
+  const coords = ' = (' + formatVec(v, 2) + ')';
+  const lhsX = 184;
+  const midY = 75;
+  ctx.fillText(lhs, lhsX, midY);
+  const lhsWidth = ctx.measureText(lhs).width;
+
+  ctx.lineWidth = 5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = colorHex;
+  ctx.beginPath();
+  ctx.moveTo(lhsX - 4, 40);
+  ctx.lineTo(lhsX + lhsWidth / 2, 26);
+  ctx.lineTo(lhsX + lhsWidth + 4, 40);
+  ctx.stroke();
+
+  ctx.fillText(coords, lhsX + lhsWidth + 18, midY);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+  const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false, depthWrite: false });
+  const sprite = new THREE.Sprite(mat);
+  sprite.scale.set(4.65, 0.65, 1);
+  return sprite;
+}
+
+// Axis labels — u\u2081 etc.
+(function() {
+  const labels = [
+    { text: 'u\u2081', pos: [5.9, 0, 0], color: '#b71c1c' },
+    { text: 'u\u2082', pos: [0, 0, 5.9], color: '#1b5e20' },
+    { text: 'u\u2083', pos: [0, 5.9, 0], color: '#0d47a1' },
+  ];
+  labels.forEach(({ text, pos, color }) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 150; canvas.height = 150;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = color;
+    ctx.font = 'bold 76px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(text, 75, 75);
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.minFilter = THREE.LinearFilter;
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false });
+    const s = new THREE.Sprite(mat);
+    s.position.set(pos[0], pos[1], pos[2]); s.scale.set(1.15, 1.15, 1);
+    scene.add(s);
+  });
+})();
+
+function makeRightAngle(origin, residualDir, planeNormal, size) {
+  const group = new THREE.Group();
+  const rDir = residualDir.clone().normalize();
+  const tangent = new THREE.Vector3().crossVectors(planeNormal, rDir).normalize();
+  if (tangent.length() < 0.01) return group;
+  const segs = 20, pts = [];
+  for (let i = 0; i <= segs; i++) {
+    const t = (i / segs) * (Math.PI / 2);
+    pts.push(new THREE.Vector3().addScaledVector(tangent, Math.cos(t)*size).addScaledVector(rDir, Math.sin(t)*size).add(origin));
+  }
+  group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: 0xe65100 })));
+  return group;
+}
+function makeColSpacePlane(q1, q2, size, color) {
+  const group = new THREE.Group();
+  const normal = new THREE.Vector3().crossVectors(q1, q2).normalize();
+  if (normal.length() < 0.001) return group;
+  const pGeo = new THREE.PlaneGeometry(size, size);
+  // More opaque for projector
+  const pMat = new THREE.MeshStandardMaterial({ color, side: THREE.DoubleSide, transparent: true, opacity: 0.45, roughness: 0.9, depthWrite: false });
+  const plane = new THREE.Mesh(pGeo, pMat);
+  const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1), normal);
+  plane.setRotationFromQuaternion(quat); group.add(plane);
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(pGeo), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.55 }));
+  edges.setRotationFromQuaternion(quat); group.add(edges);
+  const hs = size/2, ng = 20;
+  for (let i = -ng/2; i <= ng/2; i++) {
+    const t = (i/(ng/2))*hs;
+    group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3().addScaledVector(q2,t).addScaledVector(q1,-hs),
+      new THREE.Vector3().addScaledVector(q2,t).addScaledVector(q1,hs)
+    ]), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.12 })));
+    group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3().addScaledVector(q1,t).addScaledVector(q2,-hs),
+      new THREE.Vector3().addScaledVector(q1,t).addScaledVector(q2,hs)
+    ]), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.12 })));
+  }
+  return group;
+}
+function makeColSpaceLine(dir, color) {
+  const group = new THREE.Group();
+  const d = dir.clone().normalize(), extent = 6;
+  const p1 = d.clone().multiplyScalar(-extent), p2 = d.clone().multiplyScalar(extent);
+  const mid = new THREE.Vector3().addVectors(p1,p2).multiplyScalar(0.5);
+  const len = p1.distanceTo(p2);
+  const cyl = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.07,0.07,len,16),
+    new THREE.MeshStandardMaterial({ color, roughness:0.4, emissive:color, emissiveIntensity:0.3, transparent:true, opacity:0.75 })
+  );
+  cyl.position.copy(mid);
+  cyl.setRotationFromQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), d));
+  group.add(cyl); return group;
+}
+
+// ============== ANIMATION STATE ==============
+const MAX_STAGE = 5;   // 0=blank, 1=y, 2=colSpace, 3=projection, 4=P_X, 5=residual length
+let animationStage = 0;
+let currentResult = null;
+let autoPlaying = false;
+let autoTimer = null;
+
+function setStage(stage) {
+  animationStage = Math.max(0, Math.min(MAX_STAGE, stage));
+  document.getElementById('stage-indicator').textContent =
+    animationStage === 0 ? 'Ready' : 'Stage ' + animationStage + '/' + MAX_STAGE;
+  renderStage();
+}
+
+// ============== RENDER STAGE ==============
+function renderStage() {
+  [colSpaceGroup, yGroup, yhatGroup, residualGroup, labelGroup].forEach(g => {
+    while (g.children.length) g.remove(g.children[0]);
+  });
+  const resDiv = document.getElementById('results');
+  if (!currentResult) { resDiv.innerHTML = '<span class="rl">Enter X and y, then step through the animation.</span>'; return; }
+
+  const { rank, yhat, residual, colSpaceBasis, P, X, y } = currentResult;
+  const stage = animationStage;
+
+  // ===== STAGE 1+ : y vector (red) — appears first =====
+  if (stage >= 1) {
+    const yv = toSceneVec(y);
+    if (yv.length() > 0.01) yGroup.add(makeDashedBoldLine(new THREE.Vector3(0,0,0), yv, 0xc62828, 0.07));
+    yGroup.add(makeSphere(yv, 0xc62828, 0.22));
+    const yLabel = makeLabel('y = (' + formatVec(y, 2) + ')', '#c62828');
+    yLabel.position.copy(yv).add(new THREE.Vector3(0, 0.40, 0));
+    labelGroup.add(yLabel);
+  }
+
+  // ===== STAGE 2+ : Column Space =====
+  if (stage >= 2) {
+    if (rank === 1) {
+      const d = toSceneVec(colSpaceBasis[0]);
+      colSpaceGroup.add(makeColSpaceLine(d, 0x1565c0));
+    } else if (rank === 2) {
+      const q1 = toSceneVec(colSpaceBasis[0]);
+      const q2 = toSceneVec(colSpaceBasis[1]);
+      colSpaceGroup.add(makeColSpacePlane(q1, q2, 8, 0x1565c0));
+    } else if (rank === 3) {
+      const cGeo = new THREE.BoxGeometry(7,7,7);
+      const cMat = new THREE.MeshStandardMaterial({ color: 0x1565c0, transparent: true, opacity: 0.08, side: THREE.DoubleSide, depthWrite: false });
+      colSpaceGroup.add(new THREE.Mesh(cGeo, cMat));
+    }
+  }
+
+  // ===== STAGE 3+ : Projection + residual =====
+  if (stage >= 3) {
+    const yhv = toSceneVec(yhat);
+    const yv = toSceneVec(y);
+    if (yhv.length() > 0.01) yhatGroup.add(makeDashedBoldLine(new THREE.Vector3(0,0,0), yhv, 0x2e7d32, 0.07));
+    yhatGroup.add(makeSphere(yhv, 0x2e7d32, 0.22));
+    const yhLabel = makeProjectionLabel(yhat, '#2e7d32');
+    yhLabel.position.copy(yhv).add(new THREE.Vector3(0, 0.40, 0));
+    labelGroup.add(yhLabel);
+    const dist = yhv.distanceTo(yv);
+    if (dist > 0.005) {
+      residualGroup.add(makeDashedBoldLine(yhv, yv, 0xe65100, 0.07));
+      const rDir = new THREE.Vector3().subVectors(yv, yhv);
+      let planeN = new THREE.Vector3(0,0,1);
+      if (rank === 1 && colSpaceBasis.length > 0) planeN.copy(toSceneVec(colSpaceBasis[0]));
+      else if (rank === 2) {
+        const q1 = toSceneVec(colSpaceBasis[0]);
+        const q2 = toSceneVec(colSpaceBasis[1]);
+        planeN = new THREE.Vector3().crossVectors(q1, q2).normalize();
+      }
+      residualGroup.add(makeRightAngle(yhv, rDir, planeN, Math.min(0.6, dist * 0.4)));
+      // Stage 5: label the residual length on the 3D line
+      if (stage >= 5) {
+        const eMid = new THREE.Vector3().addVectors(yhv, yv).multiplyScalar(0.5);
+        const eLabel = makeLabel('||e|| = ' + vecNorm(residual).toFixed(3), '#e65100');
+        eLabel.position.copy(eMid).add(new THREE.Vector3(0.25, 0.15, 0.25));
+        labelGroup.add(eLabel);
+      }
+    }
+  }
+
+  // ===== Results Panel =====
+  let html = '';
+  if (stage === 0) {
+    html = '<span class="rl">Stage 1: y appears.</span><br><span class="rl">Stage 2: Col(X) appears.</span><br><span class="rl">Stage 3: Orthogonal projection.</span><br><span class="rl">Stage 4: Projection matrix P<sub>X</sub>.</span><br><span class="rl">Stage 5: Residual length formula.</span>';
+  } else if (stage === 1) {
+    html = '<span class="rl">y: </span><span class="rr">(' + formatVec(y) + ')</span><br>';
+    html += '<span class="rl">Stage 2: Click Next to show Col(X).</span>';
+  } else if (stage === 2) {
+    html = '<span class="rl">Rank of X: </span><span class="rv">' + rank + '</span><br>';
+    html += '<span class="rl">Col(X): </span><span class="rv">' + (rank===3?'All of R³':rank===2?'Plane through origin':'Line through origin') + '</span><br>';
+    html += '<span class="rl">y: </span><span class="rr">(' + formatVec(y) + ')</span><br>';
+    html += '<span class="rl">Stage 3: Click Next to project y onto Col(X).</span>';
+  } else if (stage === 3) {
+    html = '<span class="rl">y: </span><span class="rr">(' + formatVec(y) + ')</span><br>';
+    html += '<span class="rl"><span class="widehat">E(y)</span>: </span><span class="rg">(' + formatVec(yhat) + ')</span><br>';
+    html += '<span class="rl">Stage 4: Click Next to see P<sub>X</sub>.</span>';
+  } else if (stage === 4) {
+    html = '<span class="rl">P<sub>X</sub> =</span><br>';
+    html += '<span class="rl">X(X<sup>T</sup>X)<sup>-1</sup>X<sup>T</sup>:</span><br>';
+    html += '<span class="rv">' + formatMatrix(P, 4) + '</span><br>';
+    html += '<span class="rl"><span class="widehat">E(y)</span> = P<sub>X</sub> \u00b7 y</span><br>';
+    html += '<span class="rg">(' + formatVec(yhat) + ')</span><br>';
+    html += '<span class="rl">Matches the orthogonal projection from Stage 3.</span><br>';
+    html += '<span class="rl">Stage 5: Click Next for residual length.</span>';
+  } else if (stage === 5) {
+    // Compute residual length both ways
+    const eNormSq = vecDot(residual, residual);
+    const I = [[1,0,0],[0,1,0],[0,0,1]];
+    const IminusP = [[I[0][0]-P[0][0], I[0][1]-P[0][1], I[0][2]-P[0][2]],
+                     [I[1][0]-P[1][0], I[1][1]-P[1][1], I[1][2]-P[1][2]],
+                     [I[2][0]-P[2][0], I[2][1]-P[2][1], I[2][2]-P[2][2]]];
+    const yTIminusPy = vecDot(y, matVecMul(IminusP, y));
+    html = '<span class="rl">||e||\u00b2 = </span><span class="rv">' + eNormSq.toFixed(6) + '</span><br>';
+    html += '<span class="rl">y\u1d40(I \u2212 P<sub>X</sub>)y = </span><span class="rv">' + yTIminusPy.toFixed(6) + '</span><br>';
+    html += '<span class="rl">They match: </span><span class="rg">\u2713</span>';
+  }
+  resDiv.innerHTML = html;
+  document.getElementById('btn-prev').disabled = (stage === 0);
+  document.getElementById('btn-next').disabled = (stage === MAX_STAGE);
+}
+
+// ============== RECOMPUTE ==============
+function recompute() {
+  const xText = document.getElementById('x-input').value;
+  const yText = document.getElementById('y-input').value;
+  const resDiv = document.getElementById('results');
+  let X, y;
+  try { X = parseMatrix(xText); y = parseVector(yText); }
+  catch (e) { resDiv.innerHTML='<span class="error-msg">Invalid input format.</span>'; currentResult=null; renderStage(); return; }
+  if (!X.length||!X[0].length) { resDiv.innerHTML='<span class="error-msg">X must have at least one column.</span>'; currentResult=null; renderStage(); return; }
+  if (X.length!==3) { resDiv.innerHTML='<span class="error-msg">X must have exactly 3 rows.</span>'; currentResult=null; renderStage(); return; }
+  if (y.length!==3) { resDiv.innerHTML='<span class="error-msg">y must have exactly 3 entries.</span>'; currentResult=null; renderStage(); return; }
+  for (const row of X) for (const v of row) if (isNaN(v)) { resDiv.innerHTML='<span class="error-msg">Non-numeric entry in X.</span>'; currentResult=null; renderStage(); return; }
+  for (const v of y) if (isNaN(v)) { resDiv.innerHTML='<span class="error-msg">Non-numeric entry in y.</span>'; currentResult=null; renderStage(); return; }
+  let result;
+  try { result = computeProjection(X, y); }
+  catch (e) { resDiv.innerHTML='<span class="error-msg">Computation error: '+e.message+'</span>'; currentResult=null; renderStage(); return; }
+  result.X = X; result.y = y;
+  currentResult = result;
+  setStage(0);
+}
+
+// ============== BUTTONS ==============
+document.getElementById('btn-next').addEventListener('click', () => {
+  if (!currentResult) { recompute(); return; }
+  setStage(animationStage + 1);
+});
+document.getElementById('btn-prev').addEventListener('click', () => setStage(animationStage - 1));
+document.getElementById('btn-auto').addEventListener('click', function() {
+  if (autoPlaying) {
+    autoPlaying = false; clearInterval(autoTimer);
+    this.textContent = '\u25b6 Auto'; this.classList.remove('active'); return;
+  }
+  autoPlaying = true; this.textContent = '\u25a0 Stop'; this.classList.add('active');
+  if (animationStage === MAX_STAGE) setStage(0);
+  if (!currentResult) recompute();
+  autoTimer = setInterval(() => {
+    if (animationStage < MAX_STAGE) setStage(animationStage + 1);
+    else { setStage(0); setTimeout(() => setStage(1), 800); }
+  }, 2200);
+});
+
+const presets = {
+  plane:    { X: '1, 0\n0, 1\n0, 0',             y: '2, 1.5, 3' },
+  tilted:   { X: '1, 0.5\n0.5, 1\n0.2, -0.3',    y: '1, 2, 2.5' },
+  line:     { X: '1\n1\n1',                       y: '2, 0, 1' },
+  full:     { X: '1, 0, 0.2\n0, 1, 0.3\n0, 0, 1', y: '1.5, 2, -1' },
+  colinear: { X: '1, 2\n0, 0\n1, 2',              y: '3, 2, 4' },
+};
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const p = presets[btn.dataset.preset];
+    if (p) { document.getElementById('x-input').value = p.X; document.getElementById('y-input').value = p.y; recompute(); }
+  });
+});
+document.getElementById('x-input').addEventListener('input', recompute);
+document.getElementById('y-input').addEventListener('input', recompute);
+
+// ============== LOOP ==============
+function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+window.addEventListener('resize', () => {
+  camera.aspect = container.clientWidth / container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+});
+recompute(); animate();
+</script>
+</body>
+</html>
