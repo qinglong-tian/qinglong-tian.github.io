@@ -70,10 +70,12 @@
     <section class="hero section" id="hero">
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Placeholder</p>
-          <h1>Qinglong Tian</h1>
-          <p class="hero-title">Personal website</p>
-          <p class="hero-tagline">Content will be updated soon.</p>
+          <div class="hero-affiliation" role="img" aria-label="University of Waterloo">
+            <img class="waterloo-logo" src="assets/img/uwaterloo-logo.png" alt="" width="400" height="160">
+            <img class="waterloo-logo waterloo-logo-reversed" src="assets/img/uwaterloo-logo-reversed.png" alt="" width="400" height="160">
+          </div>
+          <h1>Qinglong Tian <span>田庆隆</span></h1>
+          <p class="hero-title">Assistant Professor, Department of Statistics and Actuarial Science</p>
 
           <div class="contact-row" aria-label="Contact links">
             <a class="button primary" href="mailto:qinglong.tian@uwaterloo.ca">
@@ -94,7 +96,7 @@
                 <path d="M4 21V7l8-4 8 4v14"></path>
                 <path d="M9 21v-7h6v7M7 10h.1M12 10h.1M17 10h.1"></path>
               </svg>
-              Office
+              Office: 2107@M3
             </span>
           </div>
         </div>
@@ -106,8 +108,8 @@
           </div>
           <div>
             <p class="profile-name">Qinglong Tian</p>
-            <p class="profile-meta">Placeholder profile</p>
-            <p class="profile-meta">Content forthcoming</p>
+            <p class="profile-meta">Assistant Professor</p>
+            <p class="profile-meta">Statistics and Actuarial Science</p>
           </div>
         </aside>
       </div>
@@ -117,40 +119,45 @@
       <div class="container">
         <div class="section-heading reveal">
           <p class="eyebrow">Research</p>
-          <h2>Research content coming soon.</h2>
-          <p>This section is currently a placeholder.</p>
+          <h2>Learning and inference with shifted or incomplete data.</h2>
+          <p>
+            I develop statistical methods for transfer learning and classification when
+            populations differ or labels are incomplete. My work uses semiparametric inference,
+            mixture models, and density ratios. I also study prediction intervals and reliability.
+          </p>
+          <a class="research-profile-link" href="https://scholar.google.com/citations?user=dHTZRgsAAAAJ&amp;hl=en" target="_blank" rel="noopener">Explore my work on Google Scholar &rarr;</a>
         </div>
 
         <div class="research-grid">
           <article class="research-card reveal">
             <span class="card-number">01</span>
-            <h3>Placeholder</h3>
-            <p>Content forthcoming.</p>
+            <h3>Transfer learning</h3>
+            <p>Adapting prediction and inference across populations with label, group-label, open-set, and continuous target shift.</p>
           </article>
           <article class="research-card reveal reveal-delay-1">
             <span class="card-number">02</span>
-            <h3>Placeholder</h3>
-            <p>Content forthcoming.</p>
+            <h3>Positive-unlabeled learning</h3>
+            <p>Estimating and classifying with labeled positives and unlabeled examples, from density-ratio models to in-context learning.</p>
           </article>
           <article class="research-card reveal reveal-delay-2">
             <span class="card-number">03</span>
-            <h3>Placeholder</h3>
-            <p>Content forthcoming.</p>
+            <h3>Semiparametric inference</h3>
+            <p>Using mixture models, density ratios, and empirical likelihood for estimation and uncertainty quantification.</p>
           </article>
           <article class="research-card reveal">
             <span class="card-number">04</span>
-            <h3>Placeholder</h3>
-            <p>Content forthcoming.</p>
+            <h3>Classification and diagnostics</h3>
+            <p>Studying classification under noisy labels and ROC analysis when diagnostic reference standards are imperfect.</p>
           </article>
           <article class="research-card reveal reveal-delay-1">
             <span class="card-number">05</span>
-            <h3>Placeholder</h3>
-            <p>Content forthcoming.</p>
+            <h3>Missing data</h3>
+            <p>Developing estimation and model-checking tools when missingness depends on outcomes that are not observed.</p>
           </article>
           <article class="research-card reveal reveal-delay-2">
             <span class="card-number">06</span>
-            <h3>Placeholder</h3>
-            <p>Content forthcoming.</p>
+            <h3>Prediction and reliability</h3>
+            <p>Constructing prediction intervals for future events and failures, including from heterogeneous reliability data.</p>
           </article>
         </div>
       </div>
@@ -160,16 +167,108 @@
       <div class="container">
         <div class="section-heading reveal">
           <p class="eyebrow">Publications</p>
-          <h2>Publications content coming soon.</h2>
-          <p>This section is currently a placeholder.</p>
+          <h2>Published and forthcoming papers.</h2>
+          <p>Journal and conference publications, including forthcoming papers.</p>
         </div>
 
-        <div class="publication-stack" aria-label="Publications placeholder">
-          <section class="publication-year reveal" aria-labelledby="pub-placeholder">
-            <h3 id="pub-placeholder">Placeholder</h3>
+        <div class="publication-stack" aria-label="Publications grouped by status and year">
+          <section class="publication-year reveal" aria-labelledby="pub-forthcoming">
+            <h3 id="pub-forthcoming">Forthcoming</h3>
             <article class="publication">
-              <h4>Publications will be added here.</h4>
-              <p>Content forthcoming.</p>
+              <h4><a href="https://arxiv.org/abs/2509.22268" target="_blank" rel="noopener">Transfer learning under group-label shift: A semiparametric exponential tilting approach</a></h4>
+              <p>M Cheng, S Maity, <strong>Q Tian</strong>, P Li. Accepted by the <em>Scandinavian Journal of Statistics</em>.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://arxiv.org/abs/2508.12446" target="_blank" rel="noopener">Modeling positive and unlabeled data with a generalized additive density ratio model</a></h4>
+              <p>P Sang, Y Sun, <strong>Q Tian</strong>, D Zeng, P Li. Accepted by the <em>Journal of the Royal Statistical Society Series B: Statistical Methodology</em>.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://arxiv.org/abs/2509.14522" target="_blank" rel="noopener">Semiparametric Learning from Open-Set Label Shift Data</a></h4>
+              <p>S Liu, Y Liu, <strong>Q Tian</strong>, P Li, J Qin. Accepted by the <em>Journal of the Royal Statistical Society Series B: Statistical Methodology</em>.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.5705/ss.202024.0204" target="_blank" rel="noopener">Identification and Efficient Estimation in Regression Analysis with Response Missing Not At Random</a></h4>
+              <p><strong>Q Tian</strong>, D Zeng, J Zhao. <em>Statistica Sinica</em> 37(2), forthcoming.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2026">
+            <h3 id="pub-2026">2026</h3>
+            <article class="publication">
+              <h4><a href="https://openreview.net/forum?id=aOKcvMt8xE" target="_blank" rel="noopener">Unsupervised Domain Adaptation for Binary Classification with an Unobservable Source Subpopulation</a></h4>
+              <p>C Ying, J Jin, H Zhang, <strong>Q Tian</strong>, Y Ma, S Li, J Zhao. <em>Transactions on Machine Learning Research</em>, 2026.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2025">
+            <h3 id="pub-2025">2025</h3>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1080/01621459.2025.2474266" target="_blank" rel="noopener">Positive and unlabeled data: Model, estimation, inference, and classification</a></h4>
+              <p>S Liu, CK Yeh, X Zhang, <strong>Q Tian</strong>, P Li. <em>Journal of the American Statistical Association</em> 120(552), 2547–2558, 2025.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1002/sim.70327" target="_blank" rel="noopener">Likelihood-Based Non-Parametric Receiver Operating Characteristic Curve Analysis in the Presence of Imperfect Reference Standard</a></h4>
+              <p>Y Sun, P Sang, <strong>Q Tian</strong>, P Li. <em>Statistics in Medicine</em> 44(28–30), e70327, 2025.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1002/cjs.70003" target="_blank" rel="noopener">Efficient and model-agnostic parameter estimation under privacy-preserving post-randomization data</a></h4>
+              <p><strong>Q Tian</strong>, J Zhao. <em>Canadian Journal of Statistics</em> 53(3), e70003, 2025.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2024">
+            <h3 id="pub-2024">2024</h3>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.3390/math12132118" target="_blank" rel="noopener">Joint statistical inference for the area under the ROC curve and Youden index under a Density Ratio Model</a></h4>
+              <p>S Liu, <strong>Q Tian</strong>, Y Liu, P Li. <em>Mathematics</em> 12(13), 2118, 2024.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://openreview.net/forum?id=KdVvOA00Or" target="_blank" rel="noopener">ReTaSA: A Nonparametric Functional Estimation Approach for Addressing Continuous Target Shift</a></h4>
+              <p>H Kim, X Zhang, J Zhao, <strong>Q Tian</strong>. <em>International Conference on Learning Representations</em>, 2024.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1002/asmb.2752" target="_blank" rel="noopener">Specifying prior distributions in reliability applications</a></h4>
+              <p><strong>Q Tian</strong>, C Lewis-Beck, JB Niemi, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em> 40(1), 5–62, 2024.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1002/asmb.2832" target="_blank" rel="noopener">Rejoinder to “Specifying Prior Distribution in Reliability Applications”</a></h4>
+              <p><strong>Q Tian</strong>, C Lewis-Beck, JB Niemi, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em> 40(1), 130–143, 2024.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2023">
+            <h3 id="pub-2023">2023</h3>
+            <article class="publication">
+              <h4><a href="https://proceedings.mlr.press/v202/tian23a.html" target="_blank" rel="noopener">ELSA: Efficient Label Shift Adaptation through the Lens of Semiparametric Models</a></h4>
+              <p><strong>Q Tian</strong>, X Zhang, J Zhao. <em>International Conference on Machine Learning</em>, 2023.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2022">
+            <h3 id="pub-2022">2022</h3>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1214/21-STS842" target="_blank" rel="noopener">Methods to compute prediction intervals: A review and new results</a></h4>
+              <p><strong>Q Tian</strong>, DJ Nordman, WQ Meeker. <em>Statistical Science</em> 37(4), 580–597, 2022.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1080/01621459.2020.1850461" target="_blank" rel="noopener">Predicting the number of future events</a></h4>
+              <p><strong>Q Tian</strong>, F Meng, DJ Nordman, WQ Meeker. <em>Journal of the American Statistical Association</em> 117(539), 1296–1310, 2022.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1287/ijds.2021.0007" target="_blank" rel="noopener">Constructing Prediction Intervals Using the Likelihood Ratio Statistic</a></h4>
+              <p><strong>Q Tian</strong>, DJ Nordman, WQ Meeker. <em>INFORMS Journal on Data Science</em> 1(1), 63–80, 2022.</p>
+            </article>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1080/00401706.2021.1921036" target="_blank" rel="noopener">Prediction of Future Failures for Heterogeneous Reliability Field Data</a></h4>
+              <p>C Lewis-Beck, <strong>Q Tian</strong>, WQ Meeker. <em>Technometrics</em> 64(1), 125–138, 2022.</p>
+            </article>
+          </section>
+
+          <section class="publication-year reveal" aria-labelledby="pub-2019">
+            <h3 id="pub-2019">2019</h3>
+            <article class="publication">
+              <h4><a href="https://doi.org/10.1002/asmb.2489" target="_blank" rel="noopener">Using degradation models to assess pipeline life</a></h4>
+              <p><strong>Q Tian</strong>, S Liu, WQ Meeker. <em>Applied Stochastic Models in Business and Industry</em> 35(6), 1411–1430, 2019.</p>
             </article>
           </section>
         </div>
@@ -215,16 +314,16 @@
       <div class="container split-grid">
         <div class="section-heading reveal">
           <p class="eyebrow">Background</p>
-          <h2>Background content coming soon.</h2>
+          <h2>Education.</h2>
         </div>
         <div class="timeline reveal reveal-delay-1">
           <article class="timeline-item">
-            <span>Placeholder</span>
-            <p>Content forthcoming.</p>
+            <span>PhD in Statistics</span>
+            <p>Iowa State University<br>Dissertation advisors: William Q. Meeker and Daniel J. Nordman</p>
           </article>
           <article class="timeline-item">
-            <span>Placeholder</span>
-            <p>Content forthcoming.</p>
+            <span>BEc in Statistics</span>
+            <p>Renmin University of China</p>
           </article>
         </div>
       </div>

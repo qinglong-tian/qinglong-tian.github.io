@@ -361,6 +361,25 @@ em {
   text-transform: uppercase;
 }
 
+.hero-affiliation {
+  margin-bottom: 1.25rem;
+}
+
+.waterloo-logo {
+  display: block;
+  width: min(360px, 100%);
+  height: auto;
+}
+
+.waterloo-logo-reversed,
+.dark .waterloo-logo:not(.waterloo-logo-reversed) {
+  display: none;
+}
+
+.dark .waterloo-logo-reversed {
+  display: block;
+}
+
 .hero h1,
 .section-heading h2,
 .personal-panel h2 {
@@ -603,6 +622,18 @@ em {
   color: var(--text-muted);
   font-size: clamp(1rem, 1.5vw, 1.12rem);
   line-height: 1.78;
+}
+
+.research-profile-link {
+  display: inline-block;
+  margin-top: 1.25rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.research-profile-link:hover {
+  text-decoration: underline;
 }
 
 .research-grid {
